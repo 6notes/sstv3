@@ -1,4 +1,9 @@
 const config = {
+  // Billing config
+  STRIPE_KEY:
+    "pk_test_51OyoUQFnDBGf5dpEDU7ipkjsTAQucqkTyhiT6wwyWxMPvfa41HJBk9vUKYzQ3klAk5wXHzsJn7FLKxKbeZ85Cro400rJCaYOoD",
+  // Frontend config
+  MAX_ATTACHMENT_SIZE: 5000000,
   // Backend config
   s3: {
     REGION: import.meta.env.VITE_REGION,
