@@ -1,0 +1,2 @@
+# Ignore the auto-generated `sst-env.d.ts` file:
+**/sst-env.d.ts
