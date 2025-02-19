@@ -76,7 +76,7 @@ export default function Notes() {
       alert(
         `Please pick a file smaller than ${
           config.MAX_ATTACHMENT_SIZE / 1000000
-        } MB.`
+        } MB.`,
       );
       return;
     }
@@ -114,7 +114,7 @@ export default function Notes() {
     event.preventDefault();
 
     const confirmed = window.confirm(
-      "Are you sure you want to delete this note?"
+      "Are you sure you want to delete this note?",
     );
 
     if (!confirmed) {

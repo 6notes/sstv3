@@ -23,7 +23,7 @@ export const identityPool = new sst.aws.CognitoIdentityPool("IdentityPool", {
         resources: [
           $concat(
             bucket.arn,
-            "/private/${cognito-identity.amazonaws.com:sub}/*"
+            "/private/${cognito-identity.amazonaws.com:sub}/*",
           ),
         ],
       },
@@ -37,7 +37,7 @@ export const identityPool = new sst.aws.CognitoIdentityPool("IdentityPool", {
             aws.getCallerIdentityOutput({}).accountId,
             ":",
             api.nodes.api.id,
-            "/*/*/*"
+            "/*/*/*",
           ),
         ],
       },

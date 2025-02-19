@@ -4,7 +4,9 @@
   background-color: var(--bs-body-bg);
   border: 1px solid var(--bs-border-color);
   border-radius: var(--bs-border-radius-lg);
-  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  transition:
+    border-color 0.15s ease-in-out,
+    box-shadow 0.15s ease-in-out;
 }
 
 .BillingForm .card-field.StripeElement--focus {

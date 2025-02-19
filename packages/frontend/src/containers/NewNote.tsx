@@ -40,7 +40,7 @@ export default function NewNote() {
       alert(
         `Please pick a file smaller than ${
           config.MAX_ATTACHMENT_SIZE / 1000000
-        } MB.`
+        } MB.`,
       );
       return;
     }

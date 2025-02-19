@@ -61,7 +61,7 @@ export default function Signup() {
   }
 
   async function handleConfirmationSubmit(
-    event: React.FormEvent<HTMLFormElement>
+    event: React.FormEvent<HTMLFormElement>,
   ) {
     event.preventDefault();
     setIsLoading(true);

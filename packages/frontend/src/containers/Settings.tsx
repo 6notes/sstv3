@@ -24,7 +24,7 @@ export default function Settings() {
 
   const handleFormSubmit: BillingFormType["onSubmit"] = async (
     storage,
-    info
+    info,
   ) => {
     if (info.error) {
       onError(info.error);
