@@ -1,15 +1,16 @@
-import React, { useState } from "react";
-import { ISignUpResult } from "amazon-cognito-identity-js";
-import { Auth } from "aws-amplify";
-import Form from "react-bootstrap/Form";
-import Stack from "react-bootstrap/Stack";
-import { useNavigate } from "react-router-dom";
+import './Signup.css';
 
-import { useFormFields } from "../lib/hooksLib";
-import { useAppContext } from "../lib/contextLib";
-import LoaderButton from "../components/LoaderButton";
-import "./Signup.css";
-import { onError } from "../lib/errorLib";
+import { ISignUpResult } from 'amazon-cognito-identity-js';
+import { Auth } from 'aws-amplify';
+import React, { useState } from 'react';
+import Form from 'react-bootstrap/Form';
+import Stack from 'react-bootstrap/Stack';
+import { useNavigate } from 'react-router-dom';
+
+import LoaderButton from '../components/LoaderButton';
+import { useAppContext } from '../lib/contextLib';
+import { onError } from '../lib/errorLib';
+import { useFormFields } from '../lib/hooksLib';
 
 /* Use this to manually confirm an unauthenticated user:
 ```{bash}
@@ -22,10 +23,10 @@ aws cognito-idp admin-confirm-sign-up \
 
 export default function Signup() {
   const [fields, handleFieldChange] = useFormFields({
-    email: "",
-    password: "",
-    confirmPassword: "",
-    confirmationCode: "",
+    email: '',
+    password: '',
+    confirmPassword: '',
+    confirmationCode: '',
   });
   const nav = useNavigate();
   const { userHasAuthenticated } = useAppContext();
@@ -61,7 +62,7 @@ export default function Signup() {
   }
 
   async function handleConfirmationSubmit(
-    event: React.FormEvent<HTMLFormElement>,
+    event: React.FormEvent<HTMLFormElement>
   ) {
     event.preventDefault();
     setIsLoading(true);
@@ -69,7 +70,7 @@ export default function Signup() {
       await Auth.confirmSignUp(fields.email, fields.confirmationCode);
       await Auth.signIn(fields.email, fields.password);
       userHasAuthenticated(true);
-      nav("/");
+      void nav('/');
     } catch (e) {
       onError(e);
       setIsLoading(false);
@@ -78,23 +79,23 @@ export default function Signup() {
 
   function renderConfirmationForm() {
     return (
-      <Form onSubmit={handleConfirmationSubmit}>
+      <Form onSubmit={void handleConfirmationSubmit}>
         <Stack gap={3}>
-          <Form.Group controlId="confirmationCode">
+          <Form.Group controlId='confirmationCode'>
             <Form.Label>Confirmation Code</Form.Label>
             <Form.Control
-              size="lg"
+              size='lg'
               autoFocus
-              type="tel"
+              type='tel'
               onChange={handleFieldChange}
               value={fields.confirmationCode}
             />
             <Form.Text muted>Please check your email for the code.</Form.Text>
           </Form.Group>
           <LoaderButton
-            size="lg"
-            type="submit"
-            variant="success"
+            size='lg'
+            type='submit'
+            variant='success'
             isLoading={isLoading}
             disabled={!validateConfirmationForm()}
           >
@@ -107,40 +108,40 @@ export default function Signup() {
 
   function renderForm() {
     return (
-      <Form onSubmit={handleSubmit}>
+      <Form onSubmit={void handleSubmit}>
         <Stack gap={3}>
-          <Form.Group controlId="email">
+          <Form.Group controlId='email'>
             <Form.Label>Email</Form.Label>
             <Form.Control
-              size="lg"
+              size='lg'
               autoFocus
-              type="email"
+              type='email'
               value={fields.email}
               onChange={handleFieldChange}
             />
           </Form.Group>
-          <Form.Group controlId="password">
+          <Form.Group controlId='password'>
             <Form.Label>Password</Form.Label>
             <Form.Control
-              size="lg"
-              type="password"
+              size='lg'
+              type='password'
               value={fields.password}
               onChange={handleFieldChange}
             />
           </Form.Group>
-          <Form.Group controlId="confirmPassword">
+          <Form.Group controlId='confirmPassword'>
             <Form.Label>Confirm Password</Form.Label>
             <Form.Control
-              size="lg"
-              type="password"
+              size='lg'
+              type='password'
               onChange={handleFieldChange}
               value={fields.confirmPassword}
             />
           </Form.Group>
           <LoaderButton
-            size="lg"
-            type="submit"
-            variant="success"
+            size='lg'
+            type='submit'
+            variant='success'
             isLoading={isLoading}
             disabled={!validateForm()}
           >
@@ -152,7 +153,7 @@ export default function Signup() {
   }
 
   return (
-    <div className="Signup">
+    <div className='Signup'>
       {newUser === null ? renderForm() : renderConfirmationForm()}
     </div>
   );

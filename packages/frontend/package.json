@@ -12,6 +12,7 @@
   "dependencies": {
     "@stripe/react-stripe-js": "^3.1.1",
     "@stripe/stripe-js": "^5.5.0",
+    "@vitejs/plugin-react": "^4.3.4",
     "amazon-cognito-identity-js": "^6.3.14",
     "aws-amplify": "^5.3.27",
     "bootstrap": "^5.3.3",
@@ -23,12 +24,13 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.17.0",
+    "@stylistic/eslint-plugin": "^4.2.0",
     "@types/bootstrap": "^5.2.10",
     "@types/react": "^18.3.18",
     "@types/react-bootstrap": "^0.32.37",
     "@types/react-dom": "^18.3.5",
     "eslint": "^9.17.0",
-    "eslint-plugin-react-hooks": "^5.0.0",
+    "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.16",
     "globals": "^15.14.0",
     "typescript": "~5.6.2",

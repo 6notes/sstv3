@@ -4,7 +4,9 @@
   "workspaces": [
     "packages/*"
   ],
-  "scripts": {},
+  "scripts": {
+    "lint": "npm run --prefix packages/core lint && npm run --prefix packages/frontend lint && npm run --prefix packages/functions lint && npm run --prefix packages/scripts lint"
+  },
   "devDependencies": {
     "@tsconfig/node22": "^22",
     "prettier": "^3.5.1",

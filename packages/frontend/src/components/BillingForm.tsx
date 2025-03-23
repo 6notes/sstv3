@@ -1,17 +1,19 @@
-import React, { useState } from "react";
-import Form from "react-bootstrap/Form";
-import Stack from "react-bootstrap/Stack";
-import { useFormFields } from "../lib/hooksLib";
-import { Token, StripeError } from "@stripe/stripe-js";
-import LoaderButton from "../components/LoaderButton";
-import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
-import "./BillingForm.css";
+import './BillingForm.css';
+
+import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
+import { StripeError, Token } from '@stripe/stripe-js';
+import React, { useState } from 'react';
+import Form from 'react-bootstrap/Form';
+import Stack from 'react-bootstrap/Stack';
+
+import { useFormFields } from '../lib/hooksLib';
+import LoaderButton from './LoaderButton';
 
 export interface BillingFormType {
   isLoading: boolean;
   onSubmit: (
     storage: string,
-    info: { token?: Token; error?: StripeError },
+    info: { token?: Token; error?: StripeError }
   ) => Promise<void>;
 }
 
@@ -19,8 +21,8 @@ export function BillingForm({ isLoading, onSubmit }: BillingFormType) {
   const stripe = useStripe();
   const elements = useElements();
   const [fields, handleFieldChange] = useFormFields({
-    name: "",
-    storage: "",
+    name: '',
+    storage: '',
   });
   const [isProcessing, setIsProcessing] = useState(false);
   const [isCardComplete, setIsCardComplete] = useState(false);
@@ -31,8 +33,8 @@ export function BillingForm({ isLoading, onSubmit }: BillingFormType) {
     return (
       stripe &&
       elements &&
-      fields.name !== "" &&
-      fields.storage !== "" &&
+      fields.name !== '' &&
+      fields.storage !== '' &&
       isCardComplete
     );
   }
@@ -62,45 +64,47 @@ export function BillingForm({ isLoading, onSubmit }: BillingFormType) {
 
     setIsProcessing(false);
 
-    onSubmit(fields.storage, { token, error });
+    await onSubmit(fields.storage, { token, error });
   }
 
   return (
-    <Form className="BillingForm" onSubmit={handleSubmitClick}>
-      <Form.Group controlId="storage">
+    <Form className='BillingForm' onSubmit={void handleSubmitClick}>
+      <Form.Group controlId='storage'>
         <Form.Label>Storage</Form.Label>
         <Form.Control
-          min="0"
-          size="lg"
-          type="number"
+          min='0'
+          size='lg'
+          type='number'
           value={fields.storage}
           onChange={handleFieldChange}
-          placeholder="Number of notes to store"
+          placeholder='Number of notes to store'
         />
       </Form.Group>
       <hr />
       <Stack gap={3}>
-        <Form.Group controlId="name">
+        <Form.Group controlId='name'>
           <Form.Label>Cardholder&apos;s name</Form.Label>
           <Form.Control
-            size="lg"
-            type="text"
+            size='lg'
+            type='text'
             value={fields.name}
             onChange={handleFieldChange}
-            placeholder="Name on the card"
+            placeholder='Name on the card'
           />
         </Form.Group>
         <div>
           <Form.Label>Credit Card Info</Form.Label>
           <CardElement
-            className="card-field"
-            onChange={(e) => setIsCardComplete(e.complete)}
+            className='card-field'
+            onChange={(e) => {
+              setIsCardComplete(e.complete);
+            }}
             options={{
               style: {
                 base: {
-                  fontSize: "16px",
-                  fontWeight: "400",
-                  color: "#495057",
+                  fontSize: '16px',
+                  fontWeight: '400',
+                  color: '#495057',
                   fontFamily: "'Open Sans', sans-serif",
                 },
               },
@@ -108,8 +112,8 @@ export function BillingForm({ isLoading, onSubmit }: BillingFormType) {
           />
         </div>
         <LoaderButton
-          size="lg"
-          type="submit"
+          size='lg'
+          type='submit'
           isLoading={isLoading}
           disabled={!validateForm()}
         >

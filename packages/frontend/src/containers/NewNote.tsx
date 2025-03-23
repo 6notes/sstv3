@@ -1,21 +1,21 @@
-import React, { useRef, useState } from "react";
-import { API } from "aws-amplify";
-import Form from "react-bootstrap/Form";
-import Stack from "react-bootstrap/Stack";
-import { useNavigate } from "react-router-dom";
+import './NewNote.css';
 
-import LoaderButton from "../components/LoaderButton";
-import config from "../config";
-import { s3Upload } from "../lib/awsLib";
-import { onError } from "../lib/errorLib";
-import { NoteType } from "../types/note";
+import { API } from 'aws-amplify';
+import React, { useRef, useState } from 'react';
+import Form from 'react-bootstrap/Form';
+import Stack from 'react-bootstrap/Stack';
+import { useNavigate } from 'react-router-dom';
 
-import "./NewNote.css";
+import LoaderButton from '../components/LoaderButton';
+import config from '../config';
+import { s3Upload } from '../lib/awsLib';
+import { onError } from '../lib/errorLib';
+import { NoteType } from '../types/note';
 
 export default function NewNote() {
   const file = useRef<null | File>(null);
   const nav = useNavigate();
-  const [content, setContent] = useState("");
+  const [content, setContent] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   function validateForm() {
@@ -28,7 +28,7 @@ export default function NewNote() {
   }
 
   function createNote(note: NoteType) {
-    return API.post("notes", "/notes", {
+    return API.post('notes', '/notes', {
       body: note,
     });
   }
@@ -38,9 +38,9 @@ export default function NewNote() {
 
     if (file.current && file.current.size > config.MAX_ATTACHMENT_SIZE) {
       alert(
-        `Please pick a file smaller than ${
+        `Please pick a file smaller than ${String(
           config.MAX_ATTACHMENT_SIZE / 1000000
-        } MB.`,
+        )} MB.`
       );
       return;
     }
@@ -53,7 +53,7 @@ export default function NewNote() {
         : undefined;
 
       await createNote({ content, attachment });
-      nav("/");
+      void nav('/');
     } catch (e) {
       onError(e);
       setIsLoading(false);
@@ -61,24 +61,26 @@ export default function NewNote() {
   }
 
   return (
-    <div className="NewNote">
-      <Form onSubmit={handleSubmit}>
-        <Form.Group controlId="content">
+    <div className='NewNote'>
+      <Form onSubmit={void handleSubmit}>
+        <Form.Group controlId='content'>
           <Form.Control
             value={content}
-            as="textarea"
-            onChange={(e) => setContent(e.target.value)}
+            as='textarea'
+            onChange={(e) => {
+              setContent(e.target.value);
+            }}
           />
         </Form.Group>
-        <Form.Group className="mt-2" controlId="file">
+        <Form.Group className='mt-2' controlId='file'>
           <Form.Label>Attachment</Form.Label>
-          <Form.Control onChange={handleFileChange} type="file" />
+          <Form.Control onChange={handleFileChange} type='file' />
         </Form.Group>
         <Stack>
           <LoaderButton
-            size="lg"
-            type="submit"
-            variant="primary"
+            size='lg'
+            type='submit'
+            variant='primary'
             isLoading={isLoading}
             disabled={!validateForm()}
           >

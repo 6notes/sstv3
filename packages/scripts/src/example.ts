@@ -1,4 +1,4 @@
-import { Resource } from "sst";
-import { Example } from "@sstv3/core/example";
+// import { Example } from '@sstv3/core/example';
+// import { Resource } from 'sst';
 
-console.log(`${Example.hello()} Linked to ${Resource.MyBucket.name}.`);
+// console.log(`${Example.hello()} Linked to ${Resource.MyBucket.name}.`);

@@ -5,3 +5,7 @@ export interface NoteType {
   attachment?: string;
   attachmentURL?: string;
 }
+
+export function isNoteType(note: unknown): note is NoteType {
+  return typeof (note as NoteType).content !== 'undefined';
+}

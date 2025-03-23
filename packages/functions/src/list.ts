@@ -1,22 +1,23 @@
-import { Resource } from "sst";
-import { Util } from "@sstv3/core/util";
-import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
-import { QueryCommand, DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb";
+import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
+import { DynamoDBDocumentClient, QueryCommand } from '@aws-sdk/lib-dynamodb';
+import { lambdaHandler } from '@sstv3/core/util';
+import { Resource } from 'sst';
 
 const dynamoDb = DynamoDBDocumentClient.from(new DynamoDBClient({}));
 
-export const main = Util.handler(async (event) => {
+export const main = lambdaHandler(async (event) => {
   const params = {
     TableName: Resource.Notes.name,
     // 'KeyConditionExpression' defines the condition for the query
     // - 'userId = :userId': only return items with matching 'userId'
-    //   partition key
-    KeyConditionExpression: "userId = :userId",
+    //   Partition key
+    KeyConditionExpression: 'userId = :userId',
     // 'ExpressionAttributeValues' defines the value in the condition
     // - ':userId': defines 'userId' to be the id of the author
     ExpressionAttributeValues: {
-      ":userId":
-        event.requestContext.authorizer?.iam.cognitoIdentity.identityId,
+      ':userId':
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        String(event.requestContext.authorizer?.iam.cognitoIdentity.identityId),
     },
   };
 

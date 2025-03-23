@@ -3,6 +3,7 @@
   "type": "module",
   "version": "0.0.0",
   "scripts": {
+    "lint": "eslint .",
     "test": "sst shell vitest"
   },
   "exports": {
@@ -15,7 +16,14 @@
     "sst": "*"
   },
   "devDependencies": {
+    "@eslint/js": "^9.21.0",
+    "@stylistic/eslint-plugin": "^4.2.0",
     "@types/aws-lambda": "^8.10.146",
+    "eslint": "^9.21.0",
+    "eslint-config-prettier": "^10.0.1",
+    "eslint-plugin-simple-import-sort": "^12.1.1",
+    "eslint-plugin-sort-keys-custom-order": "^2.2.1",
+    "typescript-eslint": "^8.24.1",
     "vitest": "^2"
   }
 }

@@ -1,20 +1,20 @@
-import React, { useState } from "react";
-import { Auth } from "aws-amplify";
-import Form from "react-bootstrap/Form";
-import Stack from "react-bootstrap/Stack";
+import './Login.css';
 
-import LoaderButton from "../components/LoaderButton.tsx";
-import { useAppContext } from "../lib/contextLib";
-import { onError } from "../lib/errorLib.ts";
-import { useFormFields } from "../lib/hooksLib";
+import { Auth } from 'aws-amplify';
+import React, { useState } from 'react';
+import Form from 'react-bootstrap/Form';
+import Stack from 'react-bootstrap/Stack';
 
-import "./Login.css";
+import LoaderButton from '../components/LoaderButton.tsx';
+import { useAppContext } from '../lib/contextLib';
+import { onError } from '../lib/errorLib.ts';
+import { useFormFields } from '../lib/hooksLib';
 
 export default function Login() {
   const { userHasAuthenticated } = useAppContext();
   const [fields, handleFieldChange] = useFormFields({
-    email: "",
-    password: "",
+    email: '',
+    password: '',
   });
   const [isLoading, setIsLoading] = useState(false);
 
@@ -37,31 +37,31 @@ export default function Login() {
   }
 
   return (
-    <div className="Login">
-      <Form onSubmit={handleSubmit}>
+    <div className='Login'>
+      <Form onSubmit={void handleSubmit}>
         <Stack gap={3}>
-          <Form.Group controlId="email">
+          <Form.Group controlId='email'>
             <Form.Label>Email</Form.Label>
             <Form.Control
               autoFocus
-              size="lg"
-              type="email"
+              size='lg'
+              type='email'
               value={fields.email}
               onChange={handleFieldChange}
             />
           </Form.Group>
-          <Form.Group controlId="password">
+          <Form.Group controlId='password'>
             <Form.Label>Password</Form.Label>
             <Form.Control
-              size="lg"
-              type="password"
+              size='lg'
+              type='password'
               value={fields.password}
               onChange={handleFieldChange}
             />
           </Form.Group>
           <LoaderButton
-            size="lg"
-            type="submit"
+            size='lg'
+            type='submit'
             isLoading={isLoading}
             disabled={!validateForm()}
           >

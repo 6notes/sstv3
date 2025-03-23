@@ -1,17 +1,17 @@
-import React, { useRef, useState, useEffect } from "react";
-import { API, Storage } from "aws-amplify";
-import Form from "react-bootstrap/Form";
-import Stack from "react-bootstrap/Stack";
-import { useParams, useNavigate } from "react-router-dom";
+import './Notes.css';
 
-import config from "../config";
-import LoaderButton from "../components/LoaderButton";
-import { s3Upload } from "../lib/awsLib";
-import { NoteType } from "../types/note";
+import { API,Storage } from 'aws-amplify';
+import React, { useEffect,useRef, useState } from 'react';
+import Form from 'react-bootstrap/Form';
+import Stack from 'react-bootstrap/Stack';
+import { useNavigate,useParams } from 'react-router-dom';
 
-import "./Notes.css";
-
-import { onError } from "../lib/errorLib";
+import LoaderButton from '../components/LoaderButton';
+import config from '../config';
+import { loadNote } from '../lib/apiLib';
+import { s3Upload } from '../lib/awsLib';
+import { onError } from '../lib/errorLib';
+import { NoteType } from '../types/note';
 
 export default function Notes() {
   const file = useRef<null | File>(null);
@@ -19,18 +19,17 @@ export default function Notes() {
   const nav = useNavigate();
   const [note, setNote] = useState<NoteType | null>(null);
   const [oldAttachment, setOldAttachment] = useState<string | null>(null);
-  const [content, setContent] = useState("");
+  const [content, setContent] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
-    function loadNote() {
-      return API.get("notes", `/notes/${id}`, {});
-    }
-
     async function onLoad() {
       try {
-        const note = await loadNote();
+        const note = await loadNote(id);
+        if (note == null) {
+          return;
+        }
         const { content, attachment } = note;
 
         if (attachment) {
@@ -45,7 +44,7 @@ export default function Notes() {
       }
     }
 
-    onLoad();
+    void onLoad();
   }, [id]);
 
   function validateForm() {
@@ -53,7 +52,7 @@ export default function Notes() {
   }
 
   function formatFilename(str: string) {
-    return str.replace(/^\w+-/, "");
+    return str.replace(/^\w+-/, '');
   }
 
   function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -62,7 +61,7 @@ export default function Notes() {
   }
 
   function saveNote(note: NoteType) {
-    return API.put("notes", `/notes/${id}`, {
+    return API.put('notes', `/notes/${id ?? ''}`, {
       body: note,
     });
   }
@@ -74,9 +73,9 @@ export default function Notes() {
 
     if (file.current && file.current.size > config.MAX_ATTACHMENT_SIZE) {
       alert(
-        `Please pick a file smaller than ${
+        `Please pick a file smaller than ${String(
           config.MAX_ATTACHMENT_SIZE / 1000000
-        } MB.`,
+        )} MB.`
       );
       return;
     }
@@ -99,7 +98,7 @@ export default function Notes() {
         await Storage.vault.remove(oldAttachment);
         setOldAttachment(attachment ?? null);
       }
-      nav("/");
+      void nav('/');
     } catch (e) {
       onError(e);
       setIsLoading(false);
@@ -107,14 +106,14 @@ export default function Notes() {
   }
 
   function deleteNote() {
-    return API.del("notes", `/notes/${id}`, {});
+    return API.del('notes', `/notes/${id ?? ''}`, {});
   }
 
   async function handleDelete(event: React.FormEvent<HTMLModElement>) {
     event.preventDefault();
 
     const confirmed = window.confirm(
-      "Are you sure you want to delete this note?",
+      'Are you sure you want to delete this note?'
     );
 
     if (!confirmed) {
@@ -125,7 +124,7 @@ export default function Notes() {
 
     try {
       await deleteNote();
-      nav("/");
+      void nav('/');
     } catch (e) {
       onError(e);
       setIsDeleting(false);
@@ -133,45 +132,47 @@ export default function Notes() {
   }
 
   return (
-    <div className="Notes">
+    <div className='Notes'>
       {note && (
-        <Form onSubmit={handleSubmit}>
+        <Form onSubmit={void handleSubmit}>
           <Stack gap={3}>
-            <Form.Group controlId="content">
+            <Form.Group controlId='content'>
               <Form.Control
-                size="lg"
-                as="textarea"
+                size='lg'
+                as='textarea'
                 value={content}
-                onChange={(e) => setContent(e.target.value)}
+                onChange={(e) => {
+                  setContent(e.target.value);
+                }}
               />
             </Form.Group>
-            <Form.Group className="mt-2" controlId="file">
+            <Form.Group className='mt-2' controlId='file'>
               <Form.Label>Attachment</Form.Label>
               {note.attachment && (
                 <p>
                   <a
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    target='_blank'
+                    rel='noopener noreferrer'
                     href={note.attachmentURL}
                   >
                     {formatFilename(note.attachment)}
                   </a>
                 </p>
               )}
-              <Form.Control onChange={handleFileChange} type="file" />
+              <Form.Control onChange={handleFileChange} type='file' />
             </Form.Group>
             <Stack gap={1}>
               <LoaderButton
-                size="lg"
-                type="submit"
+                size='lg'
+                type='submit'
                 isLoading={isLoading}
                 disabled={!validateForm()}
               >
                 Save
               </LoaderButton>
               <LoaderButton
-                size="lg"
-                variant="danger"
+                size='lg'
+                variant='danger'
                 onClick={handleDelete}
                 isLoading={isDeleting}
               >

@@ -1,30 +1,36 @@
-import * as uuid from "uuid";
-import { Resource } from "sst";
-import { Util } from "@sstv3/core/util";
-import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
-import { PutCommand, DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb";
+import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
+import { DynamoDBDocumentClient, PutCommand } from '@aws-sdk/lib-dynamodb';
+import { lambdaHandler } from '@sstv3/core/util';
+import { Resource } from 'sst';
+import * as uuid from 'uuid';
+
+import { emptyNote, Note, parseNote } from './update';
 
 const dynamoDb = DynamoDBDocumentClient.from(new DynamoDBClient({}));
 
-export const main = Util.handler(async (event) => {
-  let data = {
-    content: "",
-    attachment: "",
-  };
+export const main = lambdaHandler(async (event) => {
+  let note: Note = emptyNote;
 
-  if (event.body != null) {
-    data = JSON.parse(event.body);
+  if (event.body !== null) {
+    note = parseNote(event.body);
   }
 
   const params = {
     TableName: Resource.Notes.name,
     Item: {
       // The attributes of the item to be created
-      userId: event.requestContext.authorizer?.iam.cognitoIdentity.identityId,
-      noteId: uuid.v1(), // A unique uuid
-      content: data.content, // Parsed from request body
-      attachment: data.attachment, // Parsed from request body
-      createdAt: Date.now(), // Current Unix timestamp
+      userId: String(
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        event.requestContext.authorizer?.iam.cognitoIdentity.identityId
+      ),
+      // A unique uuid
+      noteId: uuid.v1(),
+      // Parsed from request body
+      content: note.content,
+      // Parsed from request body
+      attachment: note.attachment,
+      // Current Unix timestamp
+      createdAt: Date.now(),
     },
   };
 

@@ -1,14 +1,15 @@
-import { useState } from "react";
-import { API } from "aws-amplify";
-import { useNavigate } from "react-router-dom";
-import { Elements } from "@stripe/react-stripe-js";
-import { loadStripe } from "@stripe/stripe-js";
+import './Settings.css';
 
-import { BillingForm, BillingFormType } from "../components/BillingForm";
-import config from "../config";
-import { onError } from "../lib/errorLib";
-import { BillingType } from "../types/billing";
-import "./Settings.css";
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
+import { API } from 'aws-amplify';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+import { BillingForm, BillingFormType } from '../components/BillingForm';
+import config from '../config';
+import { onError } from '../lib/errorLib';
+import { BillingType } from '../types/billing';
 
 const stripePromise = loadStripe(config.STRIPE_KEY);
 
@@ -17,14 +18,14 @@ export default function Settings() {
   const [isLoading, setIsLoading] = useState(false);
 
   function billUser(details: BillingType) {
-    return API.post("notes", "/billing", {
+    return API.post('notes', '/billing', {
       body: details,
     });
   }
 
-  const handleFormSubmit: BillingFormType["onSubmit"] = async (
+  const handleFormSubmit: BillingFormType['onSubmit'] = async (
     storage,
-    info,
+    info
   ) => {
     if (info.error) {
       onError(info.error);
@@ -39,8 +40,8 @@ export default function Settings() {
         source: info.token?.id,
       });
 
-      alert("Your card has been charged successfully!");
-      nav("/");
+      alert('Your card has been charged successfully!');
+      void nav('/');
     } catch (e) {
       onError(e);
       setIsLoading(false);
@@ -48,14 +49,14 @@ export default function Settings() {
   };
 
   return (
-    <div className="Settings">
+    <div className='Settings'>
       <Elements
         stripe={stripePromise}
         options={{
           fonts: [
             {
               cssSrc:
-                "https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800",
+                'https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800',
             },
           ],
         }}
