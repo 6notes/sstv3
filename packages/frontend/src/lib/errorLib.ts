@@ -13,5 +13,6 @@ export function onError(error: unknown) {
     message = String(error.message);
   }
 
+  // eslint-disable-next-line no-alert
   alert(message);
 }

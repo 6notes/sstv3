@@ -2,7 +2,7 @@ export interface NoteType {
   noteId?: string;
   content: string;
   createdAt?: string;
-  attachment?: string;
+  attachment?: string | null;
   attachmentURL?: string;
 }
 

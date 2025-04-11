@@ -1,4 +1,4 @@
-import { createContext, useContext } from "react";
+import { createContext, useContext } from 'react';
 
 export interface AppContextType {
   isAuthenticated: boolean;
@@ -7,6 +7,7 @@ export interface AppContextType {
 
 export const AppContext = createContext<AppContextType>({
   isAuthenticated: false,
+  // eslint-disable-next-line no-use-before-define
   userHasAuthenticated: useAppContext,
 });
 

@@ -27,8 +27,6 @@ export function BillingForm({ isLoading, onSubmit }: BillingFormType) {
   const [isProcessing, setIsProcessing] = useState(false);
   const [isCardComplete, setIsCardComplete] = useState(false);
 
-  isLoading = isProcessing || isLoading;
-
   function validateForm() {
     return (
       stripe &&
@@ -96,8 +94,8 @@ export function BillingForm({ isLoading, onSubmit }: BillingFormType) {
           <Form.Label>Credit Card Info</Form.Label>
           <CardElement
             className='card-field'
-            onChange={(e) => {
-              setIsCardComplete(e.complete);
+            onChange={(event) => {
+              setIsCardComplete(event.complete);
             }}
             options={{
               style: {
@@ -114,7 +112,7 @@ export function BillingForm({ isLoading, onSubmit }: BillingFormType) {
         <LoaderButton
           size='lg'
           type='submit'
-          isLoading={isLoading}
+          isLoading={isProcessing || isLoading}
           disabled={!validateForm()}
         >
           Purchase

@@ -15,11 +15,6 @@ function App() {
   const [isAuthenticating, setIsAuthenticating] = useState(true);
   const [isAuthenticated, userHasAuthenticated] = useState(false);
 
-  useEffect(() => {
-    // Using void to because https://github.com/typescript-eslint/typescript-eslint/issues/9061 and https://github.com/typescript-eslint/typescript-eslint/issues/1184
-    void onLoad();
-  }, []);
-
   async function onLoad() {
     try {
       await Auth.currentSession();
@@ -32,6 +27,11 @@ function App() {
 
     setIsAuthenticating(false);
   }
+
+  useEffect(() => {
+    // Using void to because https://github.com/typescript-eslint/typescript-eslint/issues/9061 and https://github.com/typescript-eslint/typescript-eslint/issues/1184
+    void onLoad();
+  }, []);
 
   async function handleLogout() {
     await Auth.signOut();

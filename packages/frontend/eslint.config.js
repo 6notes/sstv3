@@ -1,19 +1,11 @@
-import eslint from '@eslint/js';
-import stylistic from '@stylistic/eslint-plugin';
-import prettier from 'eslint-config-prettier';
+import sixNotesRules from 'eslint-config-6notes-typescript';
 import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
-import simpleImportSort from 'eslint-plugin-simple-import-sort';
-import sortKeysCustomOrder from 'eslint-plugin-sort-keys-custom-order';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
 
 export default tseslint.config({
-  extends: [
-    eslint.configs.recommended,
-    ...tseslint.configs.strictTypeChecked,
-    prettier,
-  ],
+  extends: [...sixNotesRules],
   files: ['**/*.{ts,tsx}'],
   ignores: ['dist', '**/sst-env.d.ts'],
   languageOptions: {
@@ -30,11 +22,8 @@ export default tseslint.config({
     },
   },
   plugins: {
-    '@stylistic': stylistic,
     'react-hooks': reactHooks,
     'react-refresh': reactRefresh,
-    'simple-import-sort': simpleImportSort,
-    'sort-keys-custom-order': sortKeysCustomOrder,
   },
   rules: {
     ...reactHooks.configs.recommended.rules,
@@ -42,17 +31,5 @@ export default tseslint.config({
       'warn',
       { allowConstantExport: true },
     ],
-    '@stylistic/spaced-comment': 'warn',
-    'capitalized-comments': 'off',
-    'func-style': 'off',
-    'init-declarations': 'off',
-    'one-var': ['error', 'never'],
-    'no-ternary': 'off',
-    'prefer-const': 'error',
-    'require-await': 'error',
-    'simple-import-sort/exports': 'error',
-    'simple-import-sort/imports': 'error',
-    'sort-imports': 'off',
-    'sort-keys': 'off',
   },
 });

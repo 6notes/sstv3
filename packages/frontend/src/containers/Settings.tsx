@@ -40,10 +40,11 @@ export default function Settings() {
         source: info.token?.id,
       });
 
+      // eslint-disable-next-line no-alert
       alert('Your card has been charged successfully!');
       void nav('/');
-    } catch (e) {
-      onError(e);
+    } catch (error) {
+      onError(error);
       setIsLoading(false);
     }
   };

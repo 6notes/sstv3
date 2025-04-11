@@ -19,12 +19,14 @@ export default function NewNote() {
   const [isLoading, setIsLoading] = useState(false);
 
   function validateForm() {
-    return content.length > 0;
+    const emptyContentLength = 0;
+    return content.length > emptyContentLength;
   }
 
   function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
     if (event.currentTarget.files === null) return;
-    file.current = event.currentTarget.files[0];
+    const [firstFile] = event.currentTarget.files;
+    file.current = firstFile;
   }
 
   function createNote(note: NoteType) {
@@ -37,9 +39,10 @@ export default function NewNote() {
     event.preventDefault();
 
     if (file.current && file.current.size > config.MAX_ATTACHMENT_SIZE) {
+      // eslint-disable-next-line no-alert
       alert(
         `Please pick a file smaller than ${String(
-          config.MAX_ATTACHMENT_SIZE / 1000000
+          config.MAX_ATTACHMENT_SIZE / config.NUMBER_OF_BYTES_IN_MB
         )} MB.`
       );
       return;
@@ -48,14 +51,12 @@ export default function NewNote() {
     setIsLoading(true);
 
     try {
-      const attachment = file.current
-        ? await s3Upload(file.current)
-        : undefined;
+      const attachment = file.current ? await s3Upload(file.current) : null;
 
       await createNote({ content, attachment });
       void nav('/');
-    } catch (e) {
-      onError(e);
+    } catch (error) {
+      onError(error);
       setIsLoading(false);
     }
   }
@@ -67,8 +68,8 @@ export default function NewNote() {
           <Form.Control
             value={content}
             as='textarea'
-            onChange={(e) => {
-              setContent(e.target.value);
+            onChange={(event) => {
+              setContent(event.target.value);
             }}
           />
         </Form.Group>

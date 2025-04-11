@@ -1,21 +1,21 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes } from 'react-router-dom';
 
-import AuthenticatedRoute from "./components/AuthenticatedRoute.tsx";
-import UnauthenticatedRoute from "./components/UnauthenticatedRoute.tsx";
-import Home from "./containers/Home.tsx";
-import Login from "./containers/Login.tsx";
-import NewNote from "./containers/NewNote.tsx";
-import Notes from "./containers/Notes.tsx";
-import NotFound from "./containers/NotFound.tsx";
-import Settings from "./containers/Settings.tsx";
-import Signup from "./containers/Signup.tsx";
+import AuthenticatedRoute from './components/AuthenticatedRoute.tsx';
+import UnauthenticatedRoute from './components/UnauthenticatedRoute.tsx';
+import Home from './containers/Home.tsx';
+import Login from './containers/Login.tsx';
+import NewNote from './containers/NewNote.tsx';
+import Notes from './containers/notes/Notes.tsx';
+import NotFound from './containers/NotFound.tsx';
+import Settings from './containers/Settings.tsx';
+import Signup from './containers/signup/Signup.tsx';
 
 export default function Links() {
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
+      <Route path='/' element={<Home />} />
       <Route
-        path="/login"
+        path='/login'
         element={
           <UnauthenticatedRoute>
             <Login />
@@ -23,7 +23,7 @@ export default function Links() {
         }
       />
       <Route
-        path="/signup"
+        path='/signup'
         element={
           <UnauthenticatedRoute>
             <Signup />
@@ -31,7 +31,7 @@ export default function Links() {
         }
       />
       <Route
-        path="/settings"
+        path='/settings'
         element={
           <AuthenticatedRoute>
             <Settings />
@@ -39,7 +39,7 @@ export default function Links() {
         }
       />
       <Route
-        path="/notes/new"
+        path='/notes/new'
         element={
           <AuthenticatedRoute>
             <NewNote />
@@ -47,7 +47,7 @@ export default function Links() {
         }
       />
       <Route
-        path="/notes/:id"
+        path='/notes/:id'
         element={
           <AuthenticatedRoute>
             <Notes />
@@ -55,7 +55,7 @@ export default function Links() {
         }
       />
       {/* Finally, catch all unmatched routes */}
-      <Route path="*" element={<NotFound />} />;
+      <Route path='*' element={<NotFound />} />;
     </Routes>
   );
 }

@@ -21,10 +21,10 @@ export default function Home() {
       }
 
       try {
-        const notes = await loadNotes();
-        setNotes(notes);
-      } catch (e) {
-        onError(e);
+        const loadedNotes = await loadNotes();
+        setNotes(loadedNotes);
+      } catch (error) {
+        onError(error);
       }
 
       setIsLoading(false);
@@ -34,10 +34,10 @@ export default function Home() {
   }, [isAuthenticated]);
 
   function formatDate(str: undefined | string) {
-    return !str ? '' : new Date(str).toLocaleString();
+    return str ? new Date(str).toLocaleString() : '';
   }
 
-  function renderNotesList(notes: NoteType[]) {
+  function renderNotesList(notesToRender: NoteType[]) {
     return (
       <>
         <ListGroup.Item
@@ -48,7 +48,7 @@ export default function Home() {
           <BsPencilSquare size={17} />
           <span className='ms-2 fw-bold'>Create a new note</span>
         </ListGroup.Item>
-        {notes.map(({ noteId, content, createdAt }) => (
+        {notesToRender.map(({ noteId, content, createdAt }) => (
           <ListGroup.Item
             action
             className='text-nowrap text-truncate'
