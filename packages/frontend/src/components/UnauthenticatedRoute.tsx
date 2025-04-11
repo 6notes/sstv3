@@ -8,7 +8,8 @@ interface Props {
 }
 
 function querystring(name: string, url = window.location.href) {
-  const parsedName = name.replace(/[[]]/gu, '\\$&');
+  // Escape the square brackets
+  const parsedName = name.replace(/[[\]]/gu, '\\$&');
   const regex = new RegExp(`[?&]${parsedName}(=([^&#]*)|&|#|$)`, 'iu');
   const results = regex.exec(url);
   const indexOfPath = 2;
